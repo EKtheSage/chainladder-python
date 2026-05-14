@@ -1,0 +1,78 @@
+module: chainladder
+display_name: "Chainladder - Python"
+parser: numpy
+dynamic: false
+repo: https://github.com/casact/chainladder-python
+logo: docs/images/logo.png
+dark_mode_toggle: true
+
+source:
+  enabled: true
+  branch: main
+
+skill:
+  enabled: false
+
+reference:
+  - title: "Triangle"
+    desc: "Core triangle data structure and correlation diagnostics."
+    contents:
+      - Triangle
+      - DevelopmentCorrelation
+      - ValuationCorrelation
+
+  - title: "Development Patterns"
+    desc: "Estimating loss development factors."
+    contents:
+      - Development
+      - DevelopmentConstant
+      - MunichAdjustment
+      - IncrementalAdditive
+      - ClarkLDF
+      - CaseOutstanding
+      - TweedieGLM
+      - DevelopmentML
+      - BarnettZehnwirth
+
+  - title: "Tail Factors"
+    desc: "Extrapolating development beyond the observed triangle."
+    contents:
+      - TailConstant
+      - TailCurve
+      - TailBondy
+      - TailClark
+
+  - title: "IBNR Methods"
+    desc: "Estimating ultimate losses and IBNR."
+    contents:
+      - Chainladder
+      - MackChainladder
+      - BornhuetterFerguson
+      - Benktander
+      - CapeCod
+
+  - title: "Adjustments"
+    desc: "Data adjustments and on-level factors."
+    contents:
+      - BerquistSherman
+      - Trend
+      - ParallelogramOLF
+      - BootstrapODPSample
+
+  - title: "Workflow"
+    desc: "Pipelines, ensembles, and grid search."
+    contents:
+      - Pipeline
+      - VotingChainladder
+      - GridSearch
+
+  - title: "Utilities"
+    desc: "Helper functions and formula utilities."
+    contents:
+      - load_sample
+      - read_pickle
+      - read_json
+      - concat
+      - minimum
+      - maximum
+      - PatsyFormula

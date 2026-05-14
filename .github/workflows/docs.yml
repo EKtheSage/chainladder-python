@@ -1,0 +1,71 @@
+name: Deploy Docs (Great Docs)
+
+on:
+  push:
+    branches: [docs/great-docs-prototype]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Install dependencies
+        run: pip install chainladder great-docs
+
+      - name: Patch stream compatibility
+        run: |
+          SITE=$(python -c "import site; print(site.getsitepackages()[0])")
+          cp scripts/sitecustomize_patch.py "$SITE/sitecustomize.py"
+          echo "Stream patch installed to $SITE"
+
+      - name: Build docs
+        env:
+          NO_COLOR: "1"
+          FORCE_COLOR: "0"
+        run: great-docs build
+
+      - name: Show build output
+        run: |
+          echo "=== great-docs/ top level ==="
+          ls -la great-docs/ || echo "great-docs/ not found"
+          echo "=== great-docs/_site/ ==="
+          ls -la great-docs/_site/ || echo "great-docs/_site/ not found"
+          echo "=== index.html check ==="
+          find great-docs/_site -name "index.html" | head -10 || echo "no index.html found"
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: great-docs/_site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
