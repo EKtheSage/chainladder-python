@@ -44,6 +44,8 @@ sphinx:
   config:
     autosummary_generate: True
     bibtex_reference_style: author_year
+    doctest_global_setup: "import chainladder as cl\nimport numpy as np\nimport pandas as pd\n"
+    doctest_default_flags: 8
 
 parse:
   myst_enable_extensions:

@@ -42,3 +42,10 @@ pygments_style = 'sphinx'
 suppress_warnings = ['myst.domains']
 use_jupyterbook_latex = True
 use_multitoc_numbering = True
+import doctest as _doctest
+doctest_global_setup = """
+import chainladder as cl
+import numpy as np
+import pandas as pd
+"""
+doctest_default_flags = _doctest.ELLIPSIS
